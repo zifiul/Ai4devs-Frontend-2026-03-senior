@@ -3,6 +3,23 @@ import { Position } from '../../domain/models/Position';
 
 const prisma = new PrismaClient();
 
+export const getAllPositionsService = async () => {
+    try {
+        const positions = await prisma.position.findMany({
+            include: {
+                company: true,
+                _count: {
+                    select: { applications: true }
+                }
+            }
+        });
+        return positions;
+    } catch (error) {
+        console.error('Error retrieving positions:', error);
+        throw new Error('Error retrieving positions');
+    }
+};
+
 const calculateAverageScore = (interviews: any[]) => {
     if (interviews.length === 0) return 0;
     const totalScore = interviews.reduce((acc, interview) => acc + (interview.score || 0), 0);

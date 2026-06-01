@@ -1,26 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import DashboardLayout from './components/dashboard/DashboardLayout';
+import PositionsDashboard from './components/dashboard/PositionsDashboard';
+import AddCandidate from './components/AddCandidateForm';
+import PositionBoard from './components/PositionBoard/PositionBoard';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<DashboardLayout />}>
+        <Route index element={<Navigate to="/positions" replace />} />
+        <Route path="positions" element={<PositionsDashboard />} />
+        <Route path="positions/:id" element={<PositionBoard />} />
+        <Route path="add-candidate" element={<AddCandidate />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;
